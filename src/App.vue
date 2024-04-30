@@ -1,21 +1,28 @@
 <template>
-  <div class="weather">
+  <div class="weather" :class="weatherClass">
     <div class="container">
       <div class="card weather-form">
         <input
           class="weather-form__input"
           type="text"
-          placeholder="Enter city" />
-        <button class="weather-form__btn">Search</button>
+          placeholder="Enter city"
+          v-model="searchQuery"
+          @keyup.enter="weatherSearch" />
+        <button class="weather-form__btn" @click="weatherSearch">Search</button>
       </div>
 
-      <div class="card weather-load">Loading...</div>
+      <div class="card weather-load" v-if="loading">Loading...</div>
+      <div class="card weather-load" v-if="error">Error</div>
 
-      <div class="weather-info">
+      <div
+        class="weather-info"
+        v-show="
+          !error && !loading && location && temperature !== 0 && description
+        ">
         <div class="weather-info__text">
-          <p class="card">Phuket</p>
-          <p class="card">29&#8451;</p>
-          <p class="card">Sunny</p>
+          <p class="card">{{ location }}</p>
+          <p class="card">{{ temperature }}&#8451;</p>
+          <p class="card">{{ description }}</p>
         </div>
       </div>
     </div>
@@ -56,11 +63,57 @@ export default {
   name: 'VUEWeatherApp',
 
   data() {
-    return {};
+    return {
+      location: '',
+      temperature: 0,
+      description: '',
+      loading: false,
+      error: false,
+      searchQuery: '',
+    };
+  },
+  computed: {
+    weatherClass() {
+      if (this.description.includes('Sunny')) {
+        return 'sunny';
+      } else if (this.description.includes('Overcast')) {
+        return 'overcast';
+      } else if (this.description.includes('Partly cloudy')) {
+        return 'partly-cloudy';
+      } else {
+        return '';
+      }
+    },
   },
 
-  mounted() {},
+  methods: {
+    weatherSearch() {
+      if (this.searchQuery === '') return;
+      const baseUrl = 'http://api.weatherapi.com/v1';
+      const KEY = '5477626a1047400b8df101616243004';
+      this.loading = true;
+      this.error = false;
+      const url = `${baseUrl}/current.json?key=${KEY}&q=${this.searchQuery}`;
 
-  methods: {},
+      fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          this.loading = false;
+          this.location = data.location.name;
+          this.temperature = data.current.temp_c;
+          this.description = data.current.condition.text;
+          this.resetSearchQuery();
+        })
+        .catch((err) => {
+          this.loading = false;
+          this.error = true;
+          console.log(err);
+        });
+    },
+    resetSearchQuery() {
+      this.searchQuery = '';
+    },
+  },
 };
 </script>
