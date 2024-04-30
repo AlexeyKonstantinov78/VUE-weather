@@ -61,6 +61,8 @@
 </template>
 
 <script>
+import { baseUrl, KEY } from './assets/util/const.js';
+
 export default {
   name: 'VUEWeatherApp',
 
@@ -91,11 +93,9 @@ export default {
 
   methods: {
     weatherSearch() {
-      const baseUrl = 'http://api.weatherapi.com/v1';
-      const KEY = '5477626a1047400b8df101616243004';
       this.loading = true;
       this.error = false;
-      // const url = `${baseUrl}/current.json?key=${KEY}&q=${this.searchQuery}&lang=ru`;
+
       const url = `${baseUrl}/current.json?key=${KEY}&q=${this.searchQuery}`;
 
       fetch(url)
