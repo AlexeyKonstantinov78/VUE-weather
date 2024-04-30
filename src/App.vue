@@ -12,7 +12,9 @@
       </div>
 
       <div class="card weather-load" v-if="loading">Loading...</div>
-      <div class="card weather-load" v-if="error">Error</div>
+      <div class="card weather-load" v-if="error">
+        {{ errorMessages }}
+      </div>
 
       <div
         class="weather-info"
@@ -69,6 +71,7 @@ export default {
       description: '',
       loading: false,
       error: false,
+      errorMessages: '',
       searchQuery: '',
     };
   },
@@ -88,27 +91,29 @@ export default {
 
   methods: {
     weatherSearch() {
-      if (this.searchQuery === '') return;
       const baseUrl = 'http://api.weatherapi.com/v1';
       const KEY = '5477626a1047400b8df101616243004';
       this.loading = true;
       this.error = false;
+      // const url = `${baseUrl}/current.json?key=${KEY}&q=${this.searchQuery}&lang=ru`;
       const url = `${baseUrl}/current.json?key=${KEY}&q=${this.searchQuery}`;
 
       fetch(url)
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          if (data.error) {
+            throw new Error(data.error.message);
+          }
           this.loading = false;
           this.location = data.location.name;
           this.temperature = data.current.temp_c;
           this.description = data.current.condition.text;
           this.resetSearchQuery();
         })
-        .catch((err) => {
+        .catch((error) => {
           this.loading = false;
           this.error = true;
-          console.log(err);
+          this.errorMessages = error;
         });
     },
     resetSearchQuery() {
