@@ -1,1 +1,251 @@
 @import "normalize.css";
+
+/* karla-200 - latin */
+@font-face {
+  font-display: swap;
+  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 200;
+  src: url('../fonts/karla-v31-latin-200.woff2') format('woff2');
+  /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* karla-300 - latin */
+@font-face {
+  font-display: swap;
+  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 300;
+  src: url('../fonts/karla-v31-latin-300.woff2') format('woff2');
+  /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* karla-regular - latin */
+@font-face {
+  font-display: swap;
+  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/karla-v31-latin-regular.woff2') format('woff2');
+  /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* karla-500 - latin */
+@font-face {
+  font-display: swap;
+  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../fonts/karla-v31-latin-500.woff2') format('woff2');
+  /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* karla-600 - latin */
+@font-face {
+  font-display: swap;
+  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../fonts/karla-v31-latin-600.woff2') format('woff2');
+  /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* karla-700 - latin */
+@font-face {
+  font-display: swap;
+  /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/karla-v31-latin-700.woff2') format('woff2');
+  /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+:root {
+  --font: "Karla", sans-serif;
+  --accent: #12C0DD;
+  --accent-rgb: 18, 192, 221;
+  --ligt: #ffffff;
+  --border-radius: 10px;
+  --width-line: 2px;
+  --tr: .3s;
+
+}
+
+body,
+html {
+  height: 100vh;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font);
+  height: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+input,
+button {
+  font-family: var(--font);
+}
+
+#app {
+  height: 100%;
+}
+
+.weather {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.weather-bg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.weather-bg>div {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.weather-bg__img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  opacity: 0;
+  transition: var(--tr) ease-in-out;
+}
+
+.weather .weather-bg__img.bg {
+  opacity: 1;
+}
+
+.weather.sunny .weather-bg__img:not(.sunny) {
+  opacity: 0;
+}
+
+.weather.sunny .weather-bg__img.sunny {
+  opacity: 1;
+}
+
+.weather.overcast .weather-bg__img:not(.overcast) {
+  opacity: 0;
+}
+
+.weather.overcast .weather-bg__img.overcast {
+  opacity: 1;
+}
+
+.weather.partly-cloudy .weather-bg__img:not(.partly-cloudy) {
+  opacity: 0;
+}
+
+.weather.partly-cloudy .weather-bg__img.partly-cloudy {
+  opacity: 1;
+}
+
+.container {
+  width: 100%;
+
+  max-width: 1000px;
+  margin: 0 auto;
+  padding-left: 15px;
+  padding-right: 15px;
+  display: grid;
+  grid-template-columns: 1fr 100px 200px;
+  gap: 20px;
+}
+
+.card {
+  background-color: var(--ligt);
+  border-radius: var(--border-radius);
+  padding: 20px 30px;
+}
+
+.weather-form {
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+}
+
+.weather-form__input {
+  flex-grow: 1;
+  font-size: 20px;
+  border: var(--width-line) solid rgb(var(--accent-rgb));
+  border-radius: var(--border-radius);
+  padding: 10px 15px;
+  transition: var(--tr);
+}
+
+.weather-form__input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.weather-form__btn {
+  flex-basis: 180px;
+  font-size: 20px;
+  background-color: rgba(var(--accent-rgb), .3);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: var(--tr);
+}
+
+.weather-form__btn:hover {
+  background-color: var(--accent);
+}
+
+.weather-form,
+.weather-load,
+.weather-info {
+  grid-column: 1 / 4;
+}
+
+.weather-load {
+  display: flex;
+  align-items: center;
+  height: 87px;
+}
+
+.weather-info__text {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 20px;
+  font-size: 40px;
+}
